@@ -9,12 +9,22 @@ const StyledMain = styled.main`
     height: 95vh;
     width: 100%;
     margin: 0 auto;
-    #search {
+    .hbox {
         display: flex;
         flex-direction: row;
-        & label {
-            display: flex;
-            flex-direction: row;
+    }
+    .vbox {
+        display: flex;
+        flex-direction: column;
+        margin: 0 auto;
+        .searchButton {
+            background-color: white;
+            border-radius: 5px;
+            color: black;
+            text-decoration: none;
+            width: fit-content;
+            padding: 2px;
+            margin: 3px auto 0 auto;
         }
     }
 `;
@@ -22,46 +32,29 @@ const StyledMain = styled.main`
 export default function Home() {
     const [search, setSearch] = useState("");
     const [limit, setLimit] = useState<number>(25);
-    const [start, setStart] = useState<number>(0);
-
-    const {data, error} = useSWR(`/api/getImage?limit=${limit}&start=${start}&query=${encodeURIComponent(search)}`,
-        (url) =>
-            fetch(url)
-                .then((res) => res.json())
-    );
-
-    if (error) return (<StyledMain>
-        <div id="search">
-            <input onChange={e => setSearch(e.target.value)} placeholder="Search..." type="text" aria-label="Search" id="searchBox"/>
-            <label htmlFor="limit">
-                <input onChange={e => setLimit(Number(e.target.value))} defaultValue="25" type="number" id="limit"/>
-                <p>items per search</p>
-            </label>
-        </div>
-        <div>Failed to load</div>
-        <p> meow </p>
-    </StyledMain>);
-    if (!data) return (<StyledMain>
-        <div id="search">
-            <input onChange={e => setSearch(e.target.value)} placeholder="Search..." type="text" aria-label="Search" id="searchBox"/>
-            <label htmlFor="limit">
-                <input onChange={e => setLimit(Number(e.target.value))} defaultValue="25" type="number" id="limit"/>
-                <p>items per search</p>
-            </label>
-        </div>
-        <div>Loading...</div>
-    </StyledMain>);
-
+    const [index, setIndex] = useState<number>(0);
     return (
         <StyledMain>
-            <div id="search">
-                <input onChange={e => setSearch(e.target.value)} placeholder="Search..." type="text" aria-label="Search" id="searchBox"/>
-                <label htmlFor="limit">
-                    <input onChange={e => setLimit(Number(e.target.value))} defaultValue="25" type="number" id="limit"/>
-                    <p>items per search</p>
-                </label>
+            <div className="hbox">
+                <div className="vbox">
+                    <input onChange={e => setSearch(e.target.value)} placeholder="Search..." type="text" aria-label="Search" id="searchBox" value={search}/>
+                    <Link className={"searchButton"} href={`/${encodeURIComponent(search)}`}>Search</Link>
+                </div>
+                <div className="vbox">
+                    <label htmlFor="limit">
+                        <input onChange={e => setLimit(Number(e.target.value))} type="number" id="limit" value={limit}/>
+                        <p>items per search</p>
+                    </label>
+                </div>
+                <div className="vbox">
+                    <div className="vbox">
+                        <label htmlFor="index">
+                            <input onChange={e => setIndex(Number(e.target.value))} type="number" id="index" value={index}/>
+                            <p>starting index</p>
+                        </label>
+                    </div>
+                </div>
             </div>
-            <Link href={`/${encodeURIComponent(search)}`}>Search</Link>
         </StyledMain>
     );
 }

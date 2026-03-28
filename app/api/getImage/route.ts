@@ -21,7 +21,7 @@ export async function GET(request:Request): Promise<NextResponse> {
         temp_url += "start=" + start + "&";
     }
     if (query) {
-        temp_url += "q" + query + "&";
+        temp_url += "q=" + query + "&";
     }
     temp_url += "api_key=" + NPS_API_KEY;
 
