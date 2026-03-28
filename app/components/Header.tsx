@@ -1,9 +1,7 @@
 import styled from "styled-components";
 
 const HeaderBlock = styled.header`
-    background-color: #00000099;
-    backdrop-filter: blur(5px);
-    color: white;
+    width: 100%;
     height: 5vh;
     padding: 0 1rem;
 `;

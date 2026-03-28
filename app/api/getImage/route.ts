@@ -4,8 +4,8 @@ export const dynamic = "force-dynamic";
 
 const NPS_API_KEY = process.env.NPS_API_KEY;
 
-const base_url = "developer.nps.gov/api/v1/";
-const image_url = base_url + "multimedia/galleries/assets?"
+const base_url = "https://developer.nps.gov/api/v1/";
+const image_url = base_url + "multimedia/galleries/assets?";
 
 export async function GET(request:Request): Promise<NextResponse> {
     const {searchParams} = new URL(request.url);
